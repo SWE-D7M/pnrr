@@ -3,13 +3,14 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Petros — Stream Background Vertical</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stream Background</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-width: 1080px;
-height: 1920px;
+width: 1920px;
+height: 1080px;
 background: #020008;
 overflow: hidden;
 font-family: ‘Courier New’, monospace;
@@ -21,39 +22,39 @@ position: absolute;
 bottom: 0;
 left: 0;
 width: 100%;
-height: 40%;
+height: 55%;
 background-image:
-linear-gradient(rgba(0,229,255,0.18) 1px, transparent 1px),
-linear-gradient(90deg, rgba(0,229,255,0.18) 1px, transparent 1px);
-background-size: 70px 70px;
-transform: perspective(500px) rotateX(55deg);
+linear-gradient(rgba(0,255,180,0.15) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,255,180,0.15) 1px, transparent 1px);
+background-size: 80px 80px;
+transform: perspective(600px) rotateX(55deg);
 transform-origin: bottom center;
 animation: gridPulse 4s ease-in-out infinite;
 }
 
 @keyframes gridPulse {
-0%, 100% { opacity: 0.5; }
+0%, 100% { opacity: 0.6; }
 50% { opacity: 1; }
 }
 
-/* === HORIZON === */
+/* === HORIZON GLOW === */
 .horizon {
 position: absolute;
-bottom: 38%;
+bottom: 42%;
 left: 0;
 width: 100%;
 height: 3px;
-background: linear-gradient(90deg, transparent, #00E5FF, #1565FF, #00E5FF, transparent);
-box-shadow: 0 0 30px #00E5FF, 0 0 80px #1565FF, 0 0 120px #00E5FF;
+background: linear-gradient(90deg, transparent, #00ffb4, #ff00ff, #00ffb4, transparent);
+box-shadow: 0 0 30px #00ffb4, 0 0 80px #ff00ff, 0 0 120px #00ffb4;
 animation: horizonGlow 3s ease-in-out infinite;
 }
 
 @keyframes horizonGlow {
-0%, 100% { opacity: 0.7; }
-50% { opacity: 1; box-shadow: 0 0 60px #00E5FF, 0 0 140px #1565FF; }
+0%, 100% { opacity: 0.7; box-shadow: 0 0 30px #00ffb4, 0 0 80px #ff00ff; }
+50% { opacity: 1; box-shadow: 0 0 60px #00ffb4, 0 0 140px #ff00ff, 0 0 200px #00aaff; }
 }
 
-/* === SCANLINES === */
+/* === TOP SCAN LINE === */
 .scanline {
 position: absolute;
 top: 0; left: 0;
@@ -62,8 +63,8 @@ background: repeating-linear-gradient(
 0deg,
 transparent,
 transparent 3px,
-rgba(0,229,255,0.012) 3px,
-rgba(0,229,255,0.012) 4px
+rgba(0,255,180,0.015) 3px,
+rgba(0,255,180,0.015) 4px
 );
 pointer-events: none;
 z-index: 10;
@@ -73,20 +74,23 @@ z-index: 10;
 .stars {
 position: absolute;
 top: 0; left: 0;
-width: 100%;
-height: 62%;
+width: 100%; height: 55%;
+overflow: hidden;
 }
 
-/* === MOUNTAINS === */
-.mountains {
+.star {
 position: absolute;
-bottom: 38%;
-left: 0;
-width: 100%;
-height: 320px;
+background: white;
+border-radius: 50%;
+animation: twinkle linear infinite;
 }
 
-/* === PARTICLES === */
+@keyframes twinkle {
+0%, 100% { opacity: 0.2; transform: scale(1); }
+50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* === FLOATING PARTICLES === */
 .particle {
 position: absolute;
 border-radius: 50%;
@@ -95,134 +99,113 @@ pointer-events: none;
 }
 
 @keyframes floatUp {
-0%   { transform: translateY(0) translateX(0); opacity: 0; }
-10%  { opacity: 1; }
-90%  { opacity: 0.5; }
-100% { transform: translateY(-1800px) translateX(var(–drift)); opacity: 0; }
+0% { transform: translateY(0) translateX(0); opacity: 0; }
+10% { opacity: 1; }
+90% { opacity: 0.6; }
+100% { transform: translateY(-900px) translateX(var(–drift)); opacity: 0; }
+}
+
+/* === NEON MOUNTAINS === */
+.mountains {
+position: absolute;
+bottom: 42%;
+left: 0;
+width: 100%;
+height: 250px;
+}
+
+/* === CORNER DECORATIONS === */
+.corner {
+position: absolute;
+width: 120px;
+height: 120px;
+border-color: #00ffb4;
+border-style: solid;
+opacity: 0.6;
+animation: cornerPulse 2.5s ease-in-out infinite;
+}
+
+.corner.tl { top: 30px; left: 30px; border-width: 3px 0 0 3px; }
+.corner.tr { top: 30px; right: 30px; border-width: 3px 3px 0 0; }
+.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 3px 3px; }
+.corner.br { bottom: 30px; right: 30px; border-width: 0 3px 3px 0; }
+
+@keyframes cornerPulse {
+0%, 100% { opacity: 0.4; border-color: #00ffb4; }
+50% { opacity: 0.9; border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+}
+
+/* === HUD LINES === */
+.hud-line {
+position: absolute;
+background: linear-gradient(90deg, transparent, #00ffb4, transparent);
+height: 1px;
+opacity: 0;
+animation: hudScan 6s ease-in-out infinite;
+}
+
+.hud-line:nth-child(1) { top: 20%; width: 200px; left: 60px; animation-delay: 0s; }
+.hud-line:nth-child(2) { top: 25%; width: 120px; left: 60px; animation-delay: 0.3s; }
+.hud-line:nth-child(3) { top: 20%; width: 200px; right: 60px; animation-delay: 1s; }
+.hud-line:nth-child(4) { top: 25%; width: 120px; right: 60px; animation-delay: 1.3s; }
+
+@keyframes hudScan {
+0% { opacity: 0; }
+20% { opacity: 0.8; }
+80% { opacity: 0.8; }
+100% { opacity: 0; }
+}
+
+/* === HUD DOTS === */
+.hud-dot {
+position: absolute;
+width: 6px; height: 6px;
+background: #00ffb4;
+border-radius: 50%;
+box-shadow: 0 0 10px #00ffb4;
+animation: dotBlink 1.5s ease-in-out infinite;
+}
+
+.hud-dot:nth-child(5) { top: 19%; left: 58px; animation-delay: 0s; }
+.hud-dot:nth-child(6) { top: 19%; right: 58px; animation-delay: 1s; }
+
+@keyframes dotBlink {
+0%, 100% { opacity: 0.3; }
+50% { opacity: 1; }
 }
 
 /* === DATA STREAMS === */
 .data-stream {
 position: absolute;
 top: 0;
-font-size: 12px;
-color: #00E5FF;
+font-size: 11px;
+color: #00ffb4;
 opacity: 0;
 white-space: nowrap;
 animation: dataFall linear infinite;
-letter-spacing: 3px;
-writing-mode: vertical-rl;
+letter-spacing: 2px;
 }
 
 @keyframes dataFall {
-0%   { transform: translateY(-60px); opacity: 0; }
-5%   { opacity: 0.4; }
-95%  { opacity: 0.2; }
-100% { transform: translateY(1980px); opacity: 0; }
-}
-
-/* === CORNERS === */
-.corner {
-position: absolute;
-width: 80px;
-height: 80px;
-border-color: #00E5FF;
-border-style: solid;
-opacity: 0.5;
-animation: cornerPulse 2.5s ease-in-out infinite;
-}
-.corner.tl { top: 40px; left: 40px;  border-width: 3px 0 0 3px; }
-.corner.tr { top: 40px; right: 40px; border-width: 3px 3px 0 0; }
-.corner.bl { bottom: 40px; left: 40px;  border-width: 0 0 3px 3px; }
-.corner.br { bottom: 40px; right: 40px; border-width: 0 3px 3px 0; }
-
-@keyframes cornerPulse {
-0%, 100% { opacity: 0.3; border-color: #00E5FF; }
-50%       { opacity: 0.8; border-color: #1565FF; box-shadow: 0 0 15px #1565FF; }
+0% { transform: translateY(-50px); opacity: 0; }
+5% { opacity: 0.5; }
+95% { opacity: 0.3; }
+100% { transform: translateY(1130px); opacity: 0; }
 }
 
 /* === CENTER GLOW === */
 .center-glow {
 position: absolute;
-top: 38%;
-left: 50%;
+top: 50%; left: 50%;
 transform: translate(-50%, -50%);
-width: 700px;
-height: 700px;
-background: radial-gradient(ellipse, rgba(21,101,255,0.07) 0%, transparent 65%);
-animation: centerPulse 5s ease-in-out infinite;
+width: 600px; height: 300px;
+background: radial-gradient(ellipse, rgba(255,0,255,0.06) 0%, transparent 70%);
+animation: centerPulse 4s ease-in-out infinite;
 }
 
 @keyframes centerPulse {
-0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
-50%       { opacity: 1;   transform: translate(-50%,-50%) scale(1.08); }
-}
-
-/* === LOGO AREA (center) === */
-.logo-area {
-position: absolute;
-top: 38%;
-left: 50%;
-transform: translate(-50%, -60%);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 16px;
-z-index: 6;
-}
-
-.logo-hex {
-filter: drop-shadow(0 0 24px rgba(0,229,255,0.7)) drop-shadow(0 0 60px rgba(21,101,255,0.4));
-animation: logoFloat 4s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-0%, 100% { transform: translateY(0); }
-50%       { transform: translateY(-14px); }
-}
-
-.logo-name {
-font-family: ‘Orbitron’, ‘Courier New’, monospace;
-font-size: 72px;
-font-weight: 900;
-letter-spacing: 14px;
-text-transform: uppercase;
-background: linear-gradient(135deg, #fff 0%, #00E5FF 50%, #1565FF 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-text-shadow: none;
-animation: nameGlow 3s ease-in-out infinite;
-}
-
-@keyframes nameGlow {
-0%, 100% { filter: drop-shadow(0 0 10px rgba(0,229,255,0.4)); }
-50%       { filter: drop-shadow(0 0 30px rgba(0,229,255,0.8)); }
-}
-
-.logo-sub {
-font-size: 20px;
-letter-spacing: 8px;
-color: #00E5FF;
-opacity: 0.6;
-text-transform: uppercase;
-}
-
-/* === HUD LINES === */
-.hud {
-position: absolute;
-top: 38%;
-left: 50%;
-transform: translate(-50%, -50%);
-width: 800px;
-height: 2px;
-background: linear-gradient(90deg, transparent, rgba(0,229,255,0.3), transparent);
-animation: hudPulse 4s ease-in-out infinite;
-}
-
-@keyframes hudPulse {
-0%, 100% { opacity: 0.3; }
-50%       { opacity: 0.8; }
+0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
 }
 
 /* === VIGNETTE === */
@@ -230,28 +213,20 @@ animation: hudPulse 4s ease-in-out infinite;
 position: absolute;
 top: 0; left: 0;
 width: 100%; height: 100%;
-background: radial-gradient(ellipse at center, transparent 30%, rgba(2,0,8,0.88) 100%);
+background: radial-gradient(ellipse at center, transparent 40%, rgba(2,0,8,0.85) 100%);
 pointer-events: none;
 z-index: 5;
 }
 
+/* === BOTTOM GLOW === */
 .bottom-glow {
 position: absolute;
 bottom: 0; left: 0;
-width: 100%; height: 300px;
-background: linear-gradient(0deg, rgba(0,229,255,0.07), transparent);
+width: 100%; height: 200px;
+background: linear-gradient(0deg, rgba(0,255,180,0.08), transparent);
 }
-
-/* top glow */
-.top-glow {
-position: absolute;
-top: 0; left: 0;
-width: 100%; height: 300px;
-background: linear-gradient(180deg, rgba(21,101,255,0.06), transparent);
-}
-
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
@@ -259,46 +234,8 @@ background: linear-gradient(180deg, rgba(21,101,255,0.06), transparent);
 <div class="horizon"></div>
 <div class="stars" id="stars"></div>
 <canvas class="mountains" id="mountains"></canvas>
-
-<div class="top-glow"></div>
-<div class="bottom-glow"></div>
 <div class="center-glow"></div>
-<div class="hud"></div>
-
-<!-- LOGO -->
-
-<div class="logo-area">
-  <svg class="logo-hex" width="160" height="160" viewBox="0 0 130 130" fill="none">
-    <polygon points="65,8 118,36 118,94 65,122 12,94 12,36"
-      fill="rgba(0,229,255,0.06)" stroke="url(#lg1)" stroke-width="2"/>
-    <polygon points="65,20 106,42 106,88 65,110 24,88 24,42"
-      fill="none" stroke="rgba(0,229,255,0.18)" stroke-width="1"/>
-    <text x="65" y="85" text-anchor="middle"
-      font-family="Orbitron,monospace" font-size="52" font-weight="900"
-      fill="url(#lg2)">P</text>
-    <circle cx="65"  cy="8"   r="3" fill="#00E5FF" opacity="0.9"/>
-    <circle cx="65"  cy="122" r="3" fill="#00E5FF" opacity="0.9"/>
-    <circle cx="12"  cy="36"  r="3" fill="#1565FF" opacity="0.9"/>
-    <circle cx="118" cy="36"  r="3" fill="#1565FF" opacity="0.9"/>
-    <circle cx="12"  cy="94"  r="3" fill="#1565FF" opacity="0.9"/>
-    <circle cx="118" cy="94"  r="3" fill="#1565FF" opacity="0.9"/>
-    <line x1="28" y1="65" x2="102" y2="65" stroke="rgba(0,229,255,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
-    <defs>
-      <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="#00E5FF"/>
-        <stop offset="100%" stop-color="#1565FF"/>
-      </linearGradient>
-      <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="#ffffff"/>
-        <stop offset="60%"  stop-color="#00E5FF"/>
-        <stop offset="100%" stop-color="#1565FF"/>
-      </linearGradient>
-    </defs>
-  </svg>
-  <div class="logo-name">PETROS</div>
-  <div class="logo-sub">Pro Clubs • بيتروس</div>
-</div>
-
+<div class="bottom-glow"></div>
 <div class="vignette"></div>
 <div class="scanline"></div>
 
@@ -309,126 +246,139 @@ background: linear-gradient(180deg, rgba(21,101,255,0.06), transparent);
 <div class="corner bl"></div>
 <div class="corner br"></div>
 
+<!-- HUD -->
+
+<div class="hud-line"></div>
+<div class="hud-line"></div>
+<div class="hud-line"></div>
+<div class="hud-line"></div>
+<div class="hud-dot"></div>
+<div class="hud-dot"></div>
+
 <div id="particles"></div>
 <div id="dataStreams"></div>
 
 <script>
-// === STARS ===
-const starsEl = document.getElementById('stars');
-for (let i = 0; i < 220; i++) {
-  const s = document.createElement('div');
-  const size = Math.random() * 2.5 + 0.5;
-  s.style.cssText = `
-    position:absolute;
-    width:${size}px; height:${size}px;
-    background:white; border-radius:50%;
-    left:${Math.random()*100}%;
-    top:${Math.random()*100}%;
-    animation: twinkle ${2+Math.random()*4}s ease-in-out ${Math.random()*4}s infinite;
-  `;
-  starsEl.appendChild(s);
-}
-
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes twinkle {
-    0%,100%{opacity:0.15;transform:scale(1)}
-    50%{opacity:1;transform:scale(1.6)}
+  // === STARS ===
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 180; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    star.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-duration:${2+Math.random()*4}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    starsContainer.appendChild(star);
   }
-`;
-document.head.appendChild(style);
 
-// === MOUNTAINS ===
-const canvas = document.getElementById('mountains');
-canvas.width  = 1080;
-canvas.height = 320;
-const ctx = canvas.getContext('2d');
+  // === MOUNTAINS ===
+  const canvas = document.getElementById('mountains');
+  canvas.width = 1920;
+  canvas.height = 250;
+  const ctx = canvas.getContext('2d');
 
-function drawMountains() {
-  ctx.clearRect(0, 0, 1080, 320);
+  function drawMountains() {
+    ctx.clearRect(0, 0, 1920, 250);
 
-  // Far — purple/pink
-  ctx.beginPath();
-  ctx.moveTo(0, 320);
-  [[0,220],[120,110],[280,170],[450,70],[620,130],[800,50],[950,110],[1080,140],[1080,320]].forEach(([x,y])=>ctx.lineTo(x,y));
-  ctx.closePath();
-  const g1 = ctx.createLinearGradient(0,0,0,320);
-  g1.addColorStop(0,'rgba(21,101,255,0.3)');
-  g1.addColorStop(1,'rgba(2,0,8,0.9)');
-  ctx.fillStyle = g1;
-  ctx.fill();
-  // outline
-  ctx.beginPath();
-  [[0,220],[120,110],[280,170],[450,70],[620,130],[800,50],[950,110],[1080,140]].forEach(([x,y],i)=>i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
-  ctx.strokeStyle='rgba(21,101,255,0.8)';
-  ctx.lineWidth=2;
-  ctx.shadowColor='#1565FF';
-  ctx.shadowBlur=18;
-  ctx.stroke();
-  ctx.shadowBlur=0;
+    // Far mountains
+    ctx.beginPath();
+    ctx.moveTo(0, 250);
+    const points1 = [
+      [0,180],[150,90],[300,140],[500,60],[700,120],[900,40],[1100,100],[1300,55],[1500,110],[1700,70],[1920,130],[1920,250]
+    ];
+    points1.forEach(([x,y]) => ctx.lineTo(x,y));
+    ctx.closePath();
+    const g1 = ctx.createLinearGradient(0,0,0,250);
+    g1.addColorStop(0,'rgba(255,0,255,0.25)');
+    g1.addColorStop(1,'rgba(2,0,8,0.9)');
+    ctx.fillStyle = g1;
+    ctx.fill();
 
-  // Near — cyan
-  ctx.beginPath();
-  ctx.moveTo(0, 320);
-  [[0,270],[180,170],[360,230],[540,130],[720,200],[900,120],[1080,175],[1080,320]].forEach(([x,y])=>ctx.lineTo(x,y));
-  ctx.closePath();
-  const g2 = ctx.createLinearGradient(0,0,0,320);
-  g2.addColorStop(0,'rgba(0,229,255,0.18)');
-  g2.addColorStop(1,'rgba(2,0,8,0.95)');
-  ctx.fillStyle = g2;
-  ctx.fill();
-  // outline
-  ctx.beginPath();
-  [[0,270],[180,170],[360,230],[540,130],[720,200],[900,120],[1080,175]].forEach(([x,y],i)=>i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
-  ctx.strokeStyle='rgba(0,229,255,0.9)';
-  ctx.lineWidth=2.5;
-  ctx.shadowColor='#00E5FF';
-  ctx.shadowBlur=22;
-  ctx.stroke();
-  ctx.shadowBlur=0;
-}
-drawMountains();
+    // Outline glow far
+    ctx.beginPath();
+    points1.slice(0,-1).forEach(([x,y], i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+    ctx.strokeStyle = 'rgba(255,0,255,0.7)';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = '#ff00ff';
+    ctx.shadowBlur = 15;
+    ctx.stroke();
 
-// === PARTICLES ===
-const pContainer = document.getElementById('particles');
-const colors = ['#00E5FF','#1565FF','#00aaff','#ffffff'];
-for (let i = 0; i < 50; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const color = colors[Math.floor(Math.random()*colors.length)];
-  const size  = Math.random()*4+1;
-  const drift = (Math.random()-0.5)*300;
-  p.style.cssText = `
-    width:${size}px; height:${size}px;
-    background:${color};
-    box-shadow:0 0 ${size*3}px ${color};
-    left:${Math.random()*100}%;
-    bottom:${Math.random()*40}%;
-    --drift:${drift}px;
-    animation-duration:${6+Math.random()*12}s;
-    animation-delay:${Math.random()*12}s;
-  `;
-  pContainer.appendChild(p);
-}
+    // Near mountains
+    ctx.shadowBlur = 0;
+    ctx.beginPath();
+    ctx.moveTo(0, 250);
+    const points2 = [
+      [0,220],[200,130],[400,190],[600,100],[800,160],[1000,80],[1200,150],[1400,95],[1600,160],[1920,120],[1920,250]
+    ];
+    points2.forEach(([x,y]) => ctx.lineTo(x,y));
+    ctx.closePath();
+    const g2 = ctx.createLinearGradient(0,0,0,250);
+    g2.addColorStop(0,'rgba(0,255,180,0.15)');
+    g2.addColorStop(1,'rgba(2,0,8,0.95)');
+    ctx.fillStyle = g2;
+    ctx.fill();
 
-// === DATA STREAMS ===
-const dsContainer = document.getElementById('dataStreams');
-const chars = '01アイウエカキクケコサシスセソ';
-for (let i = 0; i < 14; i++) {
-  const d = document.createElement('div');
-  d.className = 'data-stream';
-  let txt = '';
-  for (let j = 0; j < Math.floor(Math.random()*12+6); j++)
-    txt += chars[Math.floor(Math.random()*chars.length)] + ' ';
-  d.textContent = txt;
-  d.style.cssText = `
-    left:${Math.random()*95}%;
-    animation-duration:${10+Math.random()*14}s;
-    animation-delay:${Math.random()*14}s;
-    font-size:${Math.random()*4+9}px;
-  `;
-  dsContainer.appendChild(d);
-}
+    // Outline glow near
+    ctx.beginPath();
+    points2.slice(0,-1).forEach(([x,y], i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+    ctx.strokeStyle = 'rgba(0,255,180,0.9)';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = '#00ffb4';
+    ctx.shadowBlur = 20;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  drawMountains();
+
+  // === PARTICLES ===
+  const particlesContainer = document.getElementById('particles');
+  const colors = ['#00ffb4','#ff00ff','#00aaff','#ffff00'];
+
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const size = Math.random() * 4 + 1;
+    const drift = (Math.random()-0.5)*200;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      background:${color};
+      box-shadow:0 0 ${size*3}px ${color};
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*45}%;
+      --drift:${drift}px;
+      animation-duration:${5+Math.random()*10}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    particlesContainer.appendChild(p);
+  }
+
+  // === DATA STREAMS ===
+  const streamsContainer = document.getElementById('dataStreams');
+  const chars = '01アイウエオカキクケコサシスセソ';
+
+  for (let i = 0; i < 12; i++) {
+    const stream = document.createElement('div');
+    stream.className = 'data-stream';
+    let text = '';
+    for (let j = 0; j < Math.floor(Math.random()*15+5); j++) {
+      text += chars[Math.floor(Math.random()*chars.length)] + ' ';
+    }
+    stream.textContent = text;
+    stream.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-duration:${8+Math.random()*12}s;
+      animation-delay:${Math.random()*12}s;
+      opacity:0;
+      font-size:${Math.random()*5+8}px;
+    `;
+    streamsContainer.appendChild(stream);
+  }
 </script>
 
 </body>
