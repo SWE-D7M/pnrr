@@ -3,382 +3,616 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stream Background</title>
+<title>Football Stream Background</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-width: 1920px;
-height: 1080px;
-background: #020008;
+width: 1080px;
+height: 1920px;
 overflow: hidden;
-font-family: ‘Courier New’, monospace;
+background: #F0F4F0;
+font-family: ‘Rajdhani’, sans-serif;
 }
 
-/* === GRID FLOOR === */
-.grid {
+/* ══ BACKGROUND BASE ══ */
+.bg-base {
 position: absolute;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 55%;
-background-image:
-linear-gradient(rgba(0,255,180,0.15) 1px, transparent 1px),
-linear-gradient(90deg, rgba(0,255,180,0.15) 1px, transparent 1px);
-background-size: 80px 80px;
-transform: perspective(600px) rotateX(55deg);
-transform-origin: bottom center;
-animation: gridPulse 4s ease-in-out infinite;
-}
-
-@keyframes gridPulse {
-0%, 100% { opacity: 0.6; }
-50% { opacity: 1; }
-}
-
-/* === HORIZON GLOW === */
-.horizon {
-position: absolute;
-bottom: 42%;
-left: 0;
-width: 100%;
-height: 3px;
-background: linear-gradient(90deg, transparent, #00ffb4, #ff00ff, #00ffb4, transparent);
-box-shadow: 0 0 30px #00ffb4, 0 0 80px #ff00ff, 0 0 120px #00ffb4;
-animation: horizonGlow 3s ease-in-out infinite;
-}
-
-@keyframes horizonGlow {
-0%, 100% { opacity: 0.7; box-shadow: 0 0 30px #00ffb4, 0 0 80px #ff00ff; }
-50% { opacity: 1; box-shadow: 0 0 60px #00ffb4, 0 0 140px #ff00ff, 0 0 200px #00aaff; }
-}
-
-/* === TOP SCAN LINE === */
-.scanline {
-position: absolute;
-top: 0; left: 0;
-width: 100%; height: 100%;
-background: repeating-linear-gradient(
-0deg,
-transparent,
-transparent 3px,
-rgba(0,255,180,0.015) 3px,
-rgba(0,255,180,0.015) 4px
+inset: 0;
+background: linear-gradient(180deg,
+#E8F5E8 0%,
+#F2F7F2 30%,
+#FAFCFA 60%,
+#F5F8F5 100%
 );
-pointer-events: none;
-z-index: 10;
 }
 
-/* === STARS === */
-.stars {
+/* ══ PITCH TOP ZONE (60%) ══ */
+.zone-pitch {
 position: absolute;
 top: 0; left: 0;
-width: 100%; height: 55%;
+width: 100%;
+height: 62%;
 overflow: hidden;
 }
 
-.star {
+/* Grass stripes */
+.grass-stripes {
 position: absolute;
-background: white;
+inset: 0;
+background: repeating-linear-gradient(
+180deg,
+rgba(76,175,80,0.09) 0px,
+rgba(76,175,80,0.09) 60px,
+rgba(56,142,60,0.06) 60px,
+rgba(56,142,60,0.06) 120px
+);
+}
+
+/* Pitch lines */
+.pitch-lines {
+position: absolute;
+inset: 0;
+}
+
+/* Center circle */
+.center-circle {
+position: absolute;
+top: 52%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 360px;
+height: 360px;
+border: 3px solid rgba(255,255,255,0.7);
 border-radius: 50%;
-animation: twinkle linear infinite;
+box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+animation: circlePulse 4s ease-in-out infinite;
+}
+@keyframes circlePulse {
+0%,100% { box-shadow: 0 0 0 2px rgba(76,175,80,0.2), 0 0 30px rgba(255,255,255,0.1); }
+50%      { box-shadow: 0 0 0 4px rgba(76,175,80,0.15), 0 0 60px rgba(255,255,255,0.2); }
 }
 
-@keyframes twinkle {
-0%, 100% { opacity: 0.2; transform: scale(1); }
-50% { opacity: 1; transform: scale(1.5); }
-}
-
-/* === FLOATING PARTICLES === */
-.particle {
+/* Center dot */
+.center-dot {
 position: absolute;
+top: 52%; left: 50%;
+transform: translate(-50%,-50%);
+width: 14px; height: 14px;
+background: rgba(255,255,255,0.9);
 border-radius: 50%;
-animation: floatUp linear infinite;
-pointer-events: none;
+box-shadow: 0 0 15px rgba(255,255,255,0.6);
 }
 
-@keyframes floatUp {
-0% { transform: translateY(0) translateX(0); opacity: 0; }
-10% { opacity: 1; }
-90% { opacity: 0.6; }
-100% { transform: translateY(-900px) translateX(var(–drift)); opacity: 0; }
-}
-
-/* === NEON MOUNTAINS === */
-.mountains {
+/* Half line */
+.half-line {
 position: absolute;
-bottom: 42%;
-left: 0;
-width: 100%;
-height: 250px;
+top: 52%;
+left: 5%;
+width: 90%;
+height: 2.5px;
+background: rgba(255,255,255,0.65);
+transform: translateY(-50%);
 }
 
-/* === CORNER DECORATIONS === */
-.corner {
+/* Penalty box top */
+.box-top {
 position: absolute;
-width: 120px;
-height: 120px;
-border-color: #00ffb4;
-border-style: solid;
-opacity: 0.6;
-animation: cornerPulse 2.5s ease-in-out infinite;
+top: 0; left: 50%;
+transform: translateX(-50%);
+width: 500px;
+height: 180px;
+border: 2.5px solid rgba(255,255,255,0.6);
+border-top: none;
 }
-
-.corner.tl { top: 30px; left: 30px; border-width: 3px 0 0 3px; }
-.corner.tr { top: 30px; right: 30px; border-width: 3px 3px 0 0; }
-.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 3px 3px; }
-.corner.br { bottom: 30px; right: 30px; border-width: 0 3px 3px 0; }
-
-@keyframes cornerPulse {
-0%, 100% { opacity: 0.4; border-color: #00ffb4; }
-50% { opacity: 0.9; border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
-}
-
-/* === HUD LINES === */
-.hud-line {
+/* Goal box top */
+.goalbox-top {
 position: absolute;
-background: linear-gradient(90deg, transparent, #00ffb4, transparent);
-height: 1px;
-opacity: 0;
-animation: hudScan 6s ease-in-out infinite;
+top: 0; left: 50%;
+transform: translateX(-50%);
+width: 260px;
+height: 80px;
+border: 2px solid rgba(255,255,255,0.5);
+border-top: none;
 }
 
-.hud-line:nth-child(1) { top: 20%; width: 200px; left: 60px; animation-delay: 0s; }
-.hud-line:nth-child(2) { top: 25%; width: 120px; left: 60px; animation-delay: 0.3s; }
-.hud-line:nth-child(3) { top: 20%; width: 200px; right: 60px; animation-delay: 1s; }
-.hud-line:nth-child(4) { top: 25%; width: 120px; right: 60px; animation-delay: 1.3s; }
-
-@keyframes hudScan {
-0% { opacity: 0; }
-20% { opacity: 0.8; }
-80% { opacity: 0.8; }
-100% { opacity: 0; }
+/* Penalty box bottom */
+.box-bottom {
+position: absolute;
+bottom: 0; left: 50%;
+transform: translateX(-50%);
+width: 500px;
+height: 180px;
+border: 2.5px solid rgba(255,255,255,0.6);
+border-bottom: none;
+}
+.goalbox-bottom {
+position: absolute;
+bottom: 0; left: 50%;
+transform: translateX(-50%);
+width: 260px;
+height: 80px;
+border: 2px solid rgba(255,255,255,0.5);
+border-bottom: none;
 }
 
-/* === HUD DOTS === */
-.hud-dot {
+/* Side lines */
+.sideline {
+position: absolute;
+top: 0; bottom: 0;
+width: 2.5px;
+background: rgba(255,255,255,0.6);
+}
+.sideline.left  { left: 5%; }
+.sideline.right { right: 5%; }
+.topline, .botline {
+position: absolute;
+left: 5%; right: 5%;
+height: 2.5px;
+background: rgba(255,255,255,0.6);
+}
+.topline { top: 0; }
+.botline { bottom: 0; }
+
+/* Green overlay for pitch feel */
+.pitch-overlay {
+position: absolute;
+inset: 0;
+background: linear-gradient(180deg,
+rgba(46,125,50,0.55) 0%,
+rgba(56,142,60,0.45) 40%,
+rgba(66,165,63,0.35) 70%,
+rgba(76,175,80,0.15) 100%
+);
+}
+
+/* Light rays from top */
+.light-rays {
+position: absolute;
+top: -200px; left: 50%;
+transform: translateX(-50%);
+width: 1200px; height: 800px;
+background: conic-gradient(
+from 260deg at 50% 0%,
+transparent 0deg,
+rgba(255,255,255,0.06) 5deg,
+transparent 10deg,
+rgba(255,255,255,0.04) 15deg,
+transparent 20deg,
+rgba(255,255,255,0.07) 25deg,
+transparent 30deg,
+rgba(255,255,255,0.03) 35deg,
+transparent 40deg
+);
+animation: raysRotate 20s linear infinite;
+}
+@keyframes raysRotate {
+0%   { transform: translateX(-50%) rotate(0deg); }
+100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Stadium lights glow top corners */
+.stadium-light {
 position: absolute;
 width: 6px; height: 6px;
-background: #00ffb4;
+background: #fff;
 border-radius: 50%;
-box-shadow: 0 0 10px #00ffb4;
-animation: dotBlink 1.5s ease-in-out infinite;
+box-shadow: 0 0 20px 8px rgba(255,255,255,0.6), 0 0 60px 20px rgba(255,255,255,0.2);
+animation: lightFlicker 3s ease-in-out infinite;
+}
+.stadium-light:nth-child(1) { top: 40px; left: 60px; animation-delay:0s; }
+.stadium-light:nth-child(2) { top: 40px; right: 60px; animation-delay:0.5s; }
+.stadium-light:nth-child(3) { top: 100px; left: 120px; animation-delay:1s; }
+.stadium-light:nth-child(4) { top: 100px; right: 120px; animation-delay:1.5s; }
+
+@keyframes lightFlicker {
+0%,100% { opacity:0.7; }
+50%      { opacity:1; }
 }
 
-.hud-dot:nth-child(5) { top: 19%; left: 58px; animation-delay: 0s; }
-.hud-dot:nth-child(6) { top: 19%; right: 58px; animation-delay: 1s; }
-
-@keyframes dotBlink {
-0%, 100% { opacity: 0.3; }
-50% { opacity: 1; }
-}
-
-/* === DATA STREAMS === */
-.data-stream {
-position: absolute;
-top: 0;
-font-size: 11px;
-color: #00ffb4;
-opacity: 0;
-white-space: nowrap;
-animation: dataFall linear infinite;
-letter-spacing: 2px;
-}
-
-@keyframes dataFall {
-0% { transform: translateY(-50px); opacity: 0; }
-5% { opacity: 0.5; }
-95% { opacity: 0.3; }
-100% { transform: translateY(1130px); opacity: 0; }
-}
-
-/* === CENTER GLOW === */
-.center-glow {
+/* Ball animation */
+.ball {
 position: absolute;
 top: 50%; left: 50%;
 transform: translate(-50%, -50%);
-width: 600px; height: 300px;
-background: radial-gradient(ellipse, rgba(255,0,255,0.06) 0%, transparent 70%);
-animation: centerPulse 4s ease-in-out infinite;
-}
-
-@keyframes centerPulse {
-0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-}
-
-/* === VIGNETTE === */
-.vignette {
-position: absolute;
-top: 0; left: 0;
-width: 100%; height: 100%;
-background: radial-gradient(ellipse at center, transparent 40%, rgba(2,0,8,0.85) 100%);
-pointer-events: none;
+width: 80px; height: 80px;
+animation: ballFloat 5s ease-in-out infinite;
 z-index: 5;
+filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+}
+@keyframes ballFloat {
+0%,100% { transform:translate(-50%,-50%) translateY(0) rotate(0deg); }
+50%      { transform:translate(-50%,-50%) translateY(-20px) rotate(15deg); }
 }
 
-/* === BOTTOM GLOW === */
-.bottom-glow {
+/* ══ DIVIDER ══ */
+.divider {
+position: absolute;
+top: 62%;
+left: 0; width: 100%; height: 5px;
+background: linear-gradient(90deg,
+transparent,
+#2E7D32,
+#43A047,
+#2E7D32,
+transparent
+);
+box-shadow: 0 0 15px rgba(76,175,80,0.5), 0 2px 10px rgba(0,0,0,0.1);
+z-index: 20;
+}
+
+/* Score bar style divider tag */
+.divider-tag {
+position: absolute;
+top: 62%;
+left: 50%;
+transform: translate(-50%, -50%);
+z-index: 25;
+display: flex;
+align-items: center;
+gap: 0;
+height: 52px;
+overflow: hidden;
+border-radius: 6px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.dtag-left {
+background: #1B5E20;
+padding: 0 20px;
+height: 100%;
+display: flex;
+align-items: center;
+}
+.dtag-center {
+background: #fff;
+padding: 0 24px;
+height: 100%;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.dtag-right {
+background: #1B5E20;
+padding: 0 20px;
+height: 100%;
+display: flex;
+align-items: center;
+}
+.live-dot {
+width: 8px; height: 8px;
+background: #FF3C3C;
+border-radius: 50%;
+box-shadow: 0 0 8px #FF3C3C;
+animation: liveBlink 1s ease-in-out infinite;
+}
+@keyframes liveBlink {
+0%,100%{ opacity:1; }
+50%    { opacity:0.2; }
+}
+.dtag-text {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 22px;
+letter-spacing: 4px;
+color: #1B5E20;
+}
+.dtag-icon {
+font-size: 18px;
+}
+
+/* ══ CHAT ZONE (38%) ══ */
+.zone-chat {
 position: absolute;
 bottom: 0; left: 0;
-width: 100%; height: 200px;
-background: linear-gradient(0deg, rgba(0,255,180,0.08), transparent);
+width: 100%;
+height: 38%;
+overflow: hidden;
+background: linear-gradient(180deg, #FAFCFA 0%, #F0F5F0 100%);
 }
-</style>
 
+/* Subtle grass texture chat */
+.chat-grass {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 60%;
+background: linear-gradient(180deg, transparent, rgba(76,175,80,0.04));
+}
+
+/* Thin pitch lines decorative */
+.chat-line-h {
+position: absolute;
+left: 6%; right: 6%;
+height: 1px;
+background: rgba(76,175,80,0.15);
+}
+.chat-line-h:nth-child(1) { top: 20%; }
+.chat-line-h:nth-child(2) { top: 50%; }
+.chat-line-h:nth-child(3) { top: 80%; }
+
+/* Corner arc decorative */
+.corner-arc {
+position: absolute;
+width: 70px; height: 70px;
+border: 1.5px solid rgba(76,175,80,0.2);
+border-radius: 0 0 70px 0;
+}
+.corner-arc.tl { top:0; left:0; border-radius:0 0 70px 0; }
+.corner-arc.tr { top:0; right:0; border-radius:0 0 0 70px; }
+.corner-arc.bl { bottom:0; left:0; border-radius:0 70px 0 0; }
+.corner-arc.br { bottom:0; right:0; border-radius:70px 0 0 0; }
+
+/* Floating balls micro */
+.micro-ball {
+position: absolute;
+width: 10px; height: 10px;
+border-radius: 50%;
+background: radial-gradient(circle at 35% 35%, #fff, #ccc);
+box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+animation: microBallFloat linear infinite;
+opacity: 0;
+}
+@keyframes microBallFloat {
+0%   { transform:translateY(0) rotate(0deg); opacity:0; }
+15%  { opacity:0.6; }
+85%  { opacity:0.3; }
+100% { transform:translateY(-800px) rotate(360deg); opacity:0; }
+}
+
+/* Confetti dots */
+.confetti {
+position: absolute;
+width: 6px; height: 6px;
+border-radius: 1px;
+animation: confettiFall linear infinite;
+opacity: 0;
+}
+@keyframes confettiFall {
+0%   { transform:translateY(-20px) rotate(0deg); opacity:0; }
+10%  { opacity:0.7; }
+90%  { opacity:0.3; }
+100% { transform:translateY(1300px) rotate(720deg); opacity:0; }
+}
+
+/* ══ CLUB NAME BANNER ══ */
+.club-banner {
+position: absolute;
+top: 0; left: 0;
+width: 100%;
+z-index: 30;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding-top: 48px;
+pointer-events: none;
+}
+
+/* Top accent line */
+.banner-line {
+width: 80%;
+height: 3px;
+background: linear-gradient(90deg, transparent, #fff, rgba(255,255,255,0.4), #fff, transparent);
+margin-bottom: 18px;
+animation: lineShimmer 3s ease-in-out infinite;
+}
+@keyframes lineShimmer {
+0%,100% { opacity:0.6; }
+50%      { opacity:1; }
+}
+
+/* Shield badge */
+.club-shield {
+width: 90px; height: 90px;
+margin-bottom: 14px;
+filter: drop-shadow(0 4px 16px rgba(0,0,0,0.35));
+animation: shieldFloat 4s ease-in-out infinite;
+}
+@keyframes shieldFloat {
+0%,100% { transform: translateY(0); }
+50%      { transform: translateY(-8px); }
+}
+
+/* Club name */
+.club-name {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 110px;
+letter-spacing: 12px;
+color: #fff;
+text-shadow:
+0 0 30px rgba(255,255,255,0.8),
+0 4px 20px rgba(0,0,0,0.4),
+0 0 80px rgba(255,255,255,0.3);
+line-height: 1;
+animation: nameReveal 1.2s cubic-bezier(0.23,1,0.32,1) both,
+nameGlowPulse 3s ease-in-out 1.5s infinite;
+overflow: hidden;
+white-space: nowrap;
+}
+@keyframes nameReveal {
+0%   { opacity:0; transform: translateY(40px) scaleX(0.85); letter-spacing: 4px; }
+100% { opacity:1; transform: translateY(0) scaleX(1); letter-spacing: 12px; }
+}
+@keyframes nameGlowPulse {
+0%,100% {
+text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 4px 20px rgba(0,0,0,0.4);
+transform: scale(1);
+}
+50% {
+text-shadow: 0 0 60px rgba(255,255,255,1), 0 4px 30px rgba(0,0,0,0.3), 0 0 120px rgba(200,255,200,0.4);
+transform: scale(1.02);
+}
+}
+
+/* FC subtitle */
+.club-sub {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 36px;
+letter-spacing: 18px;
+color: rgba(255,255,255,0.85);
+text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+margin-top: -8px;
+animation: subReveal 1.5s cubic-bezier(0.23,1,0.32,1) 0.3s both;
+}
+@keyframes subReveal {
+0%   { opacity:0; transform: translateY(20px); }
+100% { opacity:1; transform: translateY(0); }
+}
+
+/* Bottom accent line */
+.banner-line-bottom {
+width: 50%;
+height: 2px;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+margin-top: 16px;
+animation: lineShimmer 3s ease-in-out 0.5s infinite;
+}
+
+/* Vignette light */
+.vignette {
+position: absolute;
+inset: 0;
+background: radial-gradient(ellipse at center, transparent 50%, rgba(200,220,200,0.3) 100%);
+pointer-events: none;
+z-index: 15;
+}
+
+</style>
 </head>
 <body>
 
-<div class="grid"></div>
-<div class="horizon"></div>
-<div class="stars" id="stars"></div>
-<canvas class="mountains" id="mountains"></canvas>
-<div class="center-glow"></div>
-<div class="bottom-glow"></div>
+<div class="bg-base"></div>
+
+<!-- ═══ CLUB BANNER ═══ -->
+
+<div class="club-banner">
+  <div class="banner-line"></div>
+  <svg class="club-shield" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 4 L92 20 L92 58 C92 82 72 102 50 111 C28 102 8 82 8 58 L8 20 Z"
+      fill="rgba(27,94,32,0.9)" stroke="white" stroke-width="3"/>
+    <path d="M50 14 L82 27 L82 57 C82 76 67 93 50 101 C33 93 18 76 18 57 L18 27 Z"
+      fill="rgba(46,125,50,0.6)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+    <text x="50" y="74" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="32" fill="white" letter-spacing="1">7AIL</text>
+  </svg>
+  <div class="club-name">7AIL FC</div>
+  <div class="club-sub">النادي</div>
+  <div class="banner-line-bottom"></div>
+</div>
+
+<!-- ═══ PITCH ZONE ═══ -->
+
+<div class="zone-pitch">
+  <div class="pitch-overlay"></div>
+  <div class="grass-stripes"></div>
+  <div class="light-rays"></div>
+
+  <!-- Stadium lights -->
+
+  <div class="stadium-light"></div>
+  <div class="stadium-light"></div>
+  <div class="stadium-light"></div>
+  <div class="stadium-light"></div>
+
+  <!-- Pitch markings -->
+
+  <div class="pitch-lines">
+    <div class="sideline left"></div>
+    <div class="sideline right"></div>
+    <div class="topline"></div>
+    <div class="botline"></div>
+    <div class="half-line"></div>
+    <div class="center-circle"></div>
+    <div class="center-dot"></div>
+    <div class="box-top"></div>
+    <div class="goalbox-top"></div>
+    <div class="box-bottom"></div>
+    <div class="goalbox-bottom"></div>
+  </div>
+
+  <!-- Floating ball -->
+
+  <div class="ball">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" fill="white" stroke="#ddd" stroke-width="2"/>
+      <!-- Pentagon patches -->
+      <polygon points="50,15 62,28 57,43 43,43 38,28" fill="#222"/>
+      <polygon points="78,35 88,48 80,62 67,58 65,43" fill="#222"/>
+      <polygon points="72,72 58,80 46,72 47,58 62,52" fill="#222"/>
+      <polygon points="30,72 20,60 26,46 40,44 48,57" fill="#222"/>
+      <polygon points="22,38 35,30 46,38 44,53 30,56" fill="#222"/>
+    </svg>
+  </div>
+
+  <div id="confetti"></div>
+</div>
+
+<!-- ═══ DIVIDER ═══ -->
+
+<div class="divider"></div>
+<div class="divider-tag">
+  <div class="dtag-left">
+    <div class="dtag-icon">⚽</div>
+  </div>
+  <div class="dtag-center">
+    <div class="live-dot"></div>
+    <div class="dtag-text">LIVE NOW</div>
+    <div class="live-dot"></div>
+  </div>
+  <div class="dtag-right">
+    <div class="dtag-icon">⚽</div>
+  </div>
+</div>
+
+<!-- ═══ CHAT ZONE ═══ -->
+
+<div class="zone-chat">
+  <div class="chat-grass"></div>
+  <div class="chat-line-h"></div>
+  <div class="chat-line-h"></div>
+  <div class="chat-line-h"></div>
+  <div class="corner-arc tl"></div>
+  <div class="corner-arc tr"></div>
+  <div class="corner-arc bl"></div>
+  <div class="corner-arc br"></div>
+  <div id="microballs"></div>
+</div>
+
 <div class="vignette"></div>
-<div class="scanline"></div>
-
-<!-- Corners -->
-
-<div class="corner tl"></div>
-<div class="corner tr"></div>
-<div class="corner bl"></div>
-<div class="corner br"></div>
-
-<!-- HUD -->
-
-<div class="hud-line"></div>
-<div class="hud-line"></div>
-<div class="hud-line"></div>
-<div class="hud-line"></div>
-<div class="hud-dot"></div>
-<div class="hud-dot"></div>
-
-<div id="particles"></div>
-<div id="dataStreams"></div>
 
 <script>
-  // === STARS ===
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 180; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 2.5 + 0.5;
-    star.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      animation-duration:${2+Math.random()*4}s;
-      animation-delay:${Math.random()*4}s;
-    `;
-    starsContainer.appendChild(star);
-  }
+// Confetti in pitch
+const confEl = document.getElementById('confetti');
+const confColors = ['#4CAF50','#81C784','#A5D6A7','#fff','#FFD700','#FF8F00','#E53935'];
+for(let i=0;i<40;i++){
+  const c = document.createElement('div');
+  c.className='confetti';
+  const col = confColors[Math.floor(Math.random()*confColors.length)];
+  c.style.cssText=`
+    background:${col};
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    width:${Math.random()*6+3}px;
+    height:${Math.random()*6+3}px;
+    border-radius:${Math.random()>0.5?'50%':'2px'};
+    animation-duration:${6+Math.random()*10}s;
+    animation-delay:${Math.random()*10}s;
+  `;
+  confEl.appendChild(c);
+}
 
-  // === MOUNTAINS ===
-  const canvas = document.getElementById('mountains');
-  canvas.width = 1920;
-  canvas.height = 250;
-  const ctx = canvas.getContext('2d');
-
-  function drawMountains() {
-    ctx.clearRect(0, 0, 1920, 250);
-
-    // Far mountains
-    ctx.beginPath();
-    ctx.moveTo(0, 250);
-    const points1 = [
-      [0,180],[150,90],[300,140],[500,60],[700,120],[900,40],[1100,100],[1300,55],[1500,110],[1700,70],[1920,130],[1920,250]
-    ];
-    points1.forEach(([x,y]) => ctx.lineTo(x,y));
-    ctx.closePath();
-    const g1 = ctx.createLinearGradient(0,0,0,250);
-    g1.addColorStop(0,'rgba(255,0,255,0.25)');
-    g1.addColorStop(1,'rgba(2,0,8,0.9)');
-    ctx.fillStyle = g1;
-    ctx.fill();
-
-    // Outline glow far
-    ctx.beginPath();
-    points1.slice(0,-1).forEach(([x,y], i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
-    ctx.strokeStyle = 'rgba(255,0,255,0.7)';
-    ctx.lineWidth = 2;
-    ctx.shadowColor = '#ff00ff';
-    ctx.shadowBlur = 15;
-    ctx.stroke();
-
-    // Near mountains
-    ctx.shadowBlur = 0;
-    ctx.beginPath();
-    ctx.moveTo(0, 250);
-    const points2 = [
-      [0,220],[200,130],[400,190],[600,100],[800,160],[1000,80],[1200,150],[1400,95],[1600,160],[1920,120],[1920,250]
-    ];
-    points2.forEach(([x,y]) => ctx.lineTo(x,y));
-    ctx.closePath();
-    const g2 = ctx.createLinearGradient(0,0,0,250);
-    g2.addColorStop(0,'rgba(0,255,180,0.15)');
-    g2.addColorStop(1,'rgba(2,0,8,0.95)');
-    ctx.fillStyle = g2;
-    ctx.fill();
-
-    // Outline glow near
-    ctx.beginPath();
-    points2.slice(0,-1).forEach(([x,y], i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
-    ctx.strokeStyle = 'rgba(0,255,180,0.9)';
-    ctx.lineWidth = 2;
-    ctx.shadowColor = '#00ffb4';
-    ctx.shadowBlur = 20;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-  }
-
-  drawMountains();
-
-  // === PARTICLES ===
-  const particlesContainer = document.getElementById('particles');
-  const colors = ['#00ffb4','#ff00ff','#00aaff','#ffff00'];
-
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const color = colors[Math.floor(Math.random()*colors.length)];
-    const size = Math.random() * 4 + 1;
-    const drift = (Math.random()-0.5)*200;
-    p.style.cssText = `
-      width:${size}px; height:${size}px;
-      background:${color};
-      box-shadow:0 0 ${size*3}px ${color};
-      left:${Math.random()*100}%;
-      bottom:${Math.random()*45}%;
-      --drift:${drift}px;
-      animation-duration:${5+Math.random()*10}s;
-      animation-delay:${Math.random()*10}s;
-    `;
-    particlesContainer.appendChild(p);
-  }
-
-  // === DATA STREAMS ===
-  const streamsContainer = document.getElementById('dataStreams');
-  const chars = '01アイウエオカキクケコサシスセソ';
-
-  for (let i = 0; i < 12; i++) {
-    const stream = document.createElement('div');
-    stream.className = 'data-stream';
-    let text = '';
-    for (let j = 0; j < Math.floor(Math.random()*15+5); j++) {
-      text += chars[Math.floor(Math.random()*chars.length)] + ' ';
-    }
-    stream.textContent = text;
-    stream.style.cssText = `
-      left:${Math.random()*100}%;
-      animation-duration:${8+Math.random()*12}s;
-      animation-delay:${Math.random()*12}s;
-      opacity:0;
-      font-size:${Math.random()*5+8}px;
-    `;
-    streamsContainer.appendChild(stream);
-  }
+// Micro balls in chat
+const mbEl = document.getElementById('microballs');
+for(let i=0;i<18;i++){
+  const b = document.createElement('div');
+  b.className='micro-ball';
+  b.style.cssText=`
+    left:${Math.random()*95}%;
+    bottom:${Math.random()*60}%;
+    animation-duration:${5+Math.random()*8}s;
+    animation-delay:${Math.random()*8}s;
+    width:${Math.random()*8+6}px;
+    height:${Math.random()*8+6}px;
+  `;
+  mbEl.appendChild(b);
+}
 </script>
 
 </body>
